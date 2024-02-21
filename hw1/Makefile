@@ -8,7 +8,7 @@ VALGRIND_OPTS := --leak-check=full --show-leak-kinds=all --track-origins=yes
 
 all: build
 
-build: main.exe
+build: main
 
 
 main: main.o alloc.o
@@ -23,7 +23,7 @@ alloc.o: alloc.cpp
 run: build
 	./main.exe
 
-test: tests.exe
+test: tests
 	./tests.exe
 
 tests: tests.o alloc.o
