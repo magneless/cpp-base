@@ -1,6 +1,6 @@
 #include "alloc.h"
 
-Allocator::~Allocator() { delete[] memBegin; };
+Allocator::~Allocator() { delete[] memBegin; }
 
 void Allocator::makeAllocator(size_t maxSize) {
 	if (memBegin != nullptr) delete[] memBegin;
