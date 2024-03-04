@@ -23,5 +23,5 @@ private:
   void (*digitTokenCallback) (uint64_t) = nullptr;
   void (*charTokenCallback) (std::string) = nullptr;
 
-  void chooseCallback(std::string token);
+  void chooseCallback(std::string token, bool isNum);
 };
