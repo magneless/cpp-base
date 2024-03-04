@@ -13,18 +13,18 @@ TEST(ParseTest, StartCallback) {
     count++;
   };
 
-  EXPECT_TRUE(count == 0);
+  EXPECT_EQ(count, 0);
 
   parser.setStartCallback(callback);
   parser.parse(str);
 
-  EXPECT_TRUE(count == 1);
+  EXPECT_EQ(count, 1);
 
   for (int i = 0; i < 8; i++) {
     parser.parse(str);
   }
 
-  EXPECT_TRUE(count == 9);
+  EXPECT_EQ(count, 9);
 }
 
 TEST(ParseTest, EndCallback) {
@@ -36,18 +36,18 @@ TEST(ParseTest, EndCallback) {
     count++;
   };
 
-  EXPECT_TRUE(count == 0);
+  EXPECT_EQ(count, 0);
 
   parser.setEndCallback(callback);
   parser.parse(str);
 
-  EXPECT_TRUE(count == 1);
+  EXPECT_EQ(count, 1);
 
   for (int i = 0; i < 8; i++) {
     parser.parse(str);
   }
 
-  EXPECT_TRUE(count == 9);
+  EXPECT_EQ(count, 9);
 }
 
 TEST(ParseTest, DigitTokenCallback) {
@@ -60,19 +60,19 @@ TEST(ParseTest, DigitTokenCallback) {
     tokens.push_back(token);
   };
 
-  EXPECT_TRUE(tokens.size() == 0);
+  EXPECT_EQ(tokens.size(), 0);
 
   parser.setDigitTokenCallback(callback);
   parser.parse(str);
 
-  EXPECT_TRUE(tokens == expectedTokens);
+  EXPECT_EQ(tokens, expectedTokens);
 
   str = "123 aa\n24 a123";
   expectedTokens.insert(expectedTokens.end(), { 123, 24 });
 
   parser.parse(str);
 
-  EXPECT_TRUE(tokens == expectedTokens);
+  EXPECT_EQ(tokens, expectedTokens);
 }
 
 TEST(ParseTest, CharTokenCallback) {
@@ -85,26 +85,26 @@ TEST(ParseTest, CharTokenCallback) {
     tokens.push_back(token);
   };
 
-  EXPECT_TRUE(tokens.size() == 0);
+  EXPECT_EQ(tokens.size(), 0);
 
   parser.setCharTokenCallback(callback);
   parser.parse(str);
 
-  EXPECT_TRUE(tokens == expectedTokens);
+  EXPECT_EQ(tokens, expectedTokens);
 
   str = "aa ff\na\taa";
   expectedTokens.insert(expectedTokens.end(), {"aa", "ff", "a", "aa" });
 
   parser.parse(str);
 
-  EXPECT_TRUE(tokens == expectedTokens);
+  EXPECT_EQ(tokens, expectedTokens);
 
   str = "18446744073709551616";
   expectedTokens.push_back("18446744073709551616");
 
   parser.parse(str);
 
-  EXPECT_TRUE(tokens == expectedTokens);
+  EXPECT_EQ(tokens, expectedTokens);
 }
 
 TEST(ParseTest, AllCallbacks) {
@@ -139,8 +139,8 @@ TEST(ParseTest, AllCallbacks) {
 
   parser.parse(str);
 
-  EXPECT_TRUE(startCount == 1);
-  EXPECT_TRUE(endCount == 1);
-  EXPECT_TRUE(digitTokens == expectedDigitTokens);
-  EXPECT_TRUE(charTokens == expectedCharTokens);
+  EXPECT_EQ(startCount, 1);
+  EXPECT_EQ(endCount, 1);
+  EXPECT_EQ(digitTokens, expectedDigitTokens);
+  EXPECT_EQ(charTokens, expectedCharTokens);
 }
