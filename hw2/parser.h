@@ -1,27 +1,29 @@
 #pragma once
 
+#include <functional>
 #include <string>
+
 
 class TokenParser {
 public:
 
   TokenParser() = default;
 
-  void setStartCallback(void (*callback)());
+  void setStartCallback(std::function<void()> callback);
 
-  void setEndCallback(void (*callback)());
+  void setEndCallback(std::function<void()> callback);
 
-  void setDigitTokenCallback(void (*callback)(uint64_t));
+  void setDigitTokenCallback(std::function<void(uint64_t)> callback);
 
-  void setCharTokenCallback(void (*callback)(std::string));
+  void setCharTokenCallback(std::function<void(std::string)> callback);
 
   void parse(const std::string & line);
 
 private:
-  void (*startCallback) () = nullptr;
-  void (*endCallback) () = nullptr;
-  void (*digitTokenCallback) (uint64_t) = nullptr;
-  void (*charTokenCallback) (std::string) = nullptr;
+  std::function<void()> startCallback = nullptr;
+  std::function<void()> endCallback = nullptr;
+  std::function<void(uint64_t)> digitTokenCallback = nullptr;
+  std::function<void(std::string)> charTokenCallback = nullptr;
 
-  void chooseCallback(std::string token, bool isNum);
+  void chooseCallback(std::string token);
 };

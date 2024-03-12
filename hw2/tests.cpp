@@ -7,9 +7,9 @@
 TEST(ParseTest, StartCallback) {
   TokenParser parser;
 
-  static int count = 0;
+  int count = 0;
   std::string str = "abc asd";
-  auto callback = [](){
+  auto callback = [&count](){
     count++;
   };
 
@@ -30,9 +30,9 @@ TEST(ParseTest, StartCallback) {
 TEST(ParseTest, EndCallback) {
   TokenParser parser;
 
-  static int count = 0;
+  int count = 0;
   std::string str = "abc asd";
-  auto callback = [](){
+  auto callback = [&count](){
     count++;
   };
 
@@ -53,10 +53,10 @@ TEST(ParseTest, EndCallback) {
 TEST(ParseTest, DigitTokenCallback) {
   TokenParser parser;
   
-  static std::vector<uint64_t> tokens;
+  std::vector<uint64_t> tokens;
   std::vector<uint64_t> expectedTokens = {123, 32, 2};
   std::string str = "123 32 2";
-  auto callback = [](uint64_t token){
+  auto callback = [&tokens](uint64_t token){
     tokens.push_back(token);
   };
 
@@ -78,10 +78,10 @@ TEST(ParseTest, DigitTokenCallback) {
 TEST(ParseTest, CharTokenCallback) {
   TokenParser parser;
 
-  static std::vector<std::string> tokens;
+  std::vector<std::string> tokens;
   std::vector<std::string> expectedTokens = {"asd", "cds"};
   std::string str = "asd 124 cds 2";
-  auto callback = [](std::string token) {
+  auto callback = [&tokens](std::string token) {
     tokens.push_back(token);
   };
 
@@ -110,25 +110,25 @@ TEST(ParseTest, CharTokenCallback) {
 TEST(ParseTest, AllCallbacks) {
   TokenParser parser;
   
-  static int startCount = 0, endCount = 0;
-  static std::vector<uint64_t> digitTokens;
-  static std::vector<std::string> charTokens;
+  int startCount = 0, endCount = 0;
+  std::vector<uint64_t> digitTokens;
+  std::vector<std::string> charTokens;
 
-  std::vector<uint64_t> expectedDigitTokens = { 123, 2 };
-  std::vector<std::string> expectedCharTokens = { "asd", "aa", "-2" };
+  std::vector<uint64_t> expectedDigitTokens = { 2 };
+  std::vector<std::string> expectedCharTokens = { "asd", "-123", "aa", "20.2" };
 
-  std::string str = "asd 123 aa\n2 -2";
+  std::string str = "asd -123 aa\n2 20.2";
 
-  auto startCallback = []() {
+  auto startCallback = [&startCount]() {
     startCount++;
   };
-  auto endCallback = []() {
+  auto endCallback = [&endCount]() {
     endCount++;
   };
-  auto digitCallback = [](uint64_t digitToken) {
+  auto digitCallback = [&digitTokens](uint64_t digitToken) {
     digitTokens.push_back(digitToken);
   };
-  auto charCallback = [](std::string charToken) {
+  auto charCallback = [&charTokens](std::string charToken) {
     charTokens.push_back(charToken);
   };
 

@@ -31,8 +31,8 @@ memory_test: test
 test: tests
 	./tests.exe
 
-tests: tests.o parser.o
-	$(CXX) $(CXXFLAGS) tests.o parser.o $(GFLAGS) -g -o tests.exe
+tests: parser.o tests.o
+	$(CXX) $(CXXFLAGS) parser.o tests.o $(GFLAGS) -g -o tests.exe
 
 tests.o: tests.cpp
 	$(CXX) $(CXXFLAGS) -c tests.cpp $(GFLAGS)
