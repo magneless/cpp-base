@@ -222,7 +222,7 @@ TEST (StrongMoreOperatorTest, SameSignsAndSizes) {
     EXPECT_TRUE(num7 > num8);
     EXPECT_FALSE(num8 > num7);
 }
-//-----------WeakMoreOperator
+// -----------WeakMoreOperator
 TEST (WeakMoreOperatorTest, DifSigns) {
     BigInt num1("123");
     BigInt num2("-123");
