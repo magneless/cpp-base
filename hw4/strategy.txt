@@ -1,0 +1,4 @@
+ x1 +  x2 =   x1 sum x2  | neg = false;
+-x1 +  x2 =   x2 dif x1  | if (-x1 <= x2) neg = false; else neg = true;
+ x1 + -x2 =   x1 dif x2  | if (x1 >= -x2) neg = false; else neg = true;
+-x1 + -x2 = -(x1 sum x2) | neg = true;
