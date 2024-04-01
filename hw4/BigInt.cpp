@@ -63,19 +63,19 @@ BigInt& BigInt::operator=(BigInt&& other) {
 BigInt BigInt::operator+(const BigInt& other) const {
     BigInt res;
     if (!negative_ && !other.negative_) {
-        // x1 + x2
+        //x1 + x2
         res.num_ = sum(num_, other.num_, size_,
             other.size_, &res.size_);
         res.negative_ = false;
     }
     else if (negative_ && other.negative_) {
-        // -(x1 + x2)
+        //  -(x1 + x2)
         res.num_ = sum(num_, other.num_, size_,
             other.size_, &res.size_);
         res.negative_ = true;
     }
     else if (negative_ && !other.negative_){
-        // x2 - x1
+        //  x2 - x1
         if (-*this <= other) {
             res.num_ = dif(other.num_, num_,
                 other.size_, size_, &res.size_);
@@ -88,7 +88,7 @@ BigInt BigInt::operator+(const BigInt& other) const {
         }
     }
     else {
-        // x1 - x2
+        //  x1 - x2
         if (*this <= -other) {
             res.num_ = dif(other.num_, num_,
                 other.size_, size_, &res.size_);
@@ -215,7 +215,7 @@ bool BigInt::operator>=(const BigInt& other) const {
 
 
 int* sum(const int* x1, const int* x2, int size1, int size2, int *size) {
-    // x1 + x2
+    //  x1 + x2
     int maxSize = std::max(size1, size2);
     int* res = new int[maxSize + 1];
     *size = maxSize + 1;
@@ -235,7 +235,7 @@ int* sum(const int* x1, const int* x2, int size1, int size2, int *size) {
 }
 
 int* dif(const int* x1, const int* x2, int size1, int size2, int *size) {
-    // x1 - x2
+    //  x1 - x2
     int maxSize = std::max(size1, size2);
     int* res = new int[maxSize];
     *size = maxSize;

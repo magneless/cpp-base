@@ -6,7 +6,7 @@
 class BigInt {
 public:
     BigInt();
-    BigInt(const std::string& num);
+    explicit BigInt(const std::string& num);
     BigInt(const BigInt& other);
     BigInt(BigInt&& other);
     ~BigInt();
