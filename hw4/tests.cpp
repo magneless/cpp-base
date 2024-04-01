@@ -2,7 +2,7 @@
 
 #include "BigInt.h"
 
-//-----------StrongLessOperator
+// -----------StrongLessOperator
 TEST (StrongLessOperatorTest, DifSigns) {
     BigInt num1("123");
     BigInt num2("-123");
@@ -46,7 +46,7 @@ TEST (StrongLessOperatorTest, SameSignsAndSizes) {
     EXPECT_FALSE(num7 < num8);
     EXPECT_TRUE(num8 < num7);
 }
-//-----------EqualOperator
+// -----------EqualOperator
 TEST (EqualOperatorTest, DifSigns) {
     BigInt num1("123");
     BigInt num2("-123");
@@ -90,7 +90,7 @@ TEST (EqualOperatorTest, SameSignsAndSizes) {
     EXPECT_FALSE(num7 == num8);
     EXPECT_FALSE(num8 == num7);
 }
-//-----------WeakLessOperator
+// -----------WeakLessOperator
 TEST (WeakLessOperatorTest, DifSigns) {
     BigInt num1("123");
     BigInt num2("-123");
@@ -134,7 +134,7 @@ TEST (WeakLessOperatorTest, SameSignsAndSizes) {
     EXPECT_FALSE(num7 <= num8);
     EXPECT_TRUE(num8 <= num7);
 }
-//-----------NotEqualOperator
+// -----------NotEqualOperator
 TEST (NotEqualOperatorTest, DifSigns) {
     BigInt num1("123");
     BigInt num2("-123");
@@ -178,7 +178,7 @@ TEST (NotEqualOperatorTest, SameSignsAndSizes) {
     EXPECT_TRUE(num7 != num8);
     EXPECT_TRUE(num8 != num7);
 }
-//-----------StrongMoreOperator
+// -----------StrongMoreOperator
 TEST (StrongMoreOperatorTest, DifSigns) {
     BigInt num1("123");
     BigInt num2("-123");
@@ -266,8 +266,8 @@ TEST (WeakMoreOperatorTest, SameSignsAndSizes) {
     EXPECT_TRUE(num7 > num8);
     EXPECT_FALSE(num8 > num7);
 }
-//-----------
-//-----------SumOperator
+// -----------
+// -----------SumOperator
 TEST (SumOperatorTest, BothPositive) {
     BigInt num1("19");
     BigInt num2("27");
@@ -339,7 +339,7 @@ TEST (SumOperatorTest, BigIntAndInt32_t) {
 
     EXPECT_EQ(num1 + num2, num3);
 }
-//-----------DifOperator
+// -----------DifOperator
 TEST (DifOperatorTest, BothPositive) {
     BigInt num1("9955");
     BigInt num2("10000");
@@ -411,7 +411,7 @@ TEST (DifOperatorTest, BigIntAndInt32_t) {
 
     EXPECT_EQ(num1 - num2, num3);
 }
-//-----------MultOperator
+// -----------MultOperator
 TEST (MultOperatorTest, OneAndZero) {
     BigInt num1("1");
     BigInt num2("100");
