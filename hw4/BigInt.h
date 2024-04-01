@@ -39,5 +39,5 @@ private:
     int* num_;
 };
 
-int* sum(int* x1, int* x2, int size1, int size2, int& size);
-int* dif(int* x1, int* x2, int size1, int size2, int& size);
+int* sum(const int* x1, const int* x2, int size1, int size2, int* size);
+int* dif(const int* x1, const int* x2, int size1, int size2, int* size);

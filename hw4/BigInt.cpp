@@ -65,25 +65,25 @@ BigInt BigInt::operator+(const BigInt& other) const {
     if (!negative_ && !other.negative_) {
         // x1 + x2
         res.num_ = sum(num_, other.num_, size_,
-            other.size_, res.size_);
+            other.size_, &res.size_);
         res.negative_ = false;
     }
     else if (negative_ && other.negative_) {
         // -(x1 + x2)
         res.num_ = sum(num_, other.num_, size_,
-            other.size_, res.size_);
+            other.size_, &res.size_);
         res.negative_ = true;
     }
     else if (negative_ && !other.negative_){
         // x2 - x1
         if (-*this <= other) {
             res.num_ = dif(other.num_, num_,
-                other.size_, size_, res.size_);
+                other.size_, size_, &res.size_);
             res.negative_ = false;
         }
         else {
             res.num_ = dif(num_, other.num_,
-                size_, other.size_, res.size_);
+                size_, other.size_, &res.size_);
             res.negative_ = true;
         }
     }
@@ -91,12 +91,12 @@ BigInt BigInt::operator+(const BigInt& other) const {
         // x1 - x2
         if (*this <= -other) {
             res.num_ = dif(other.num_, num_,
-                other.size_, size_, res.size_);
+                other.size_, size_, &res.size_);
             res.negative_ = true;
         }
         else {
             res.num_ = dif(num_, other.num_,
-                size_, other.size_, res.size_);
+                size_, other.size_, &res.size_);
             res.negative_ = false;
         }
     }
@@ -214,11 +214,11 @@ bool BigInt::operator>=(const BigInt& other) const {
 }
 
 
-int* sum(int* x1, int* x2, int size1, int size2, int &size) {
+int* sum(const int* x1, const int* x2, int size1, int size2, int *size) {
     // x1 + x2
     int maxSize = std::max(size1, size2);
     int* res = new int[maxSize + 1];
-    size = maxSize + 1;
+    *size = maxSize + 1;
     int re = 0;
     for (int i = 0; i < maxSize; ++i) {
         int tmpSum = re;
@@ -228,17 +228,17 @@ int* sum(int* x1, int* x2, int size1, int size2, int &size) {
         re = tmpSum / 10;
     }
 
-    if (re != 0) res[size - 1] = re;
-    else --size;
+    if (re != 0) res[*size - 1] = re;
+    else --(*size);
 
     return res;
 }
 
-int* dif(int* x1, int* x2, int size1, int size2, int &size) {
+int* dif(const int* x1, const int* x2, int size1, int size2, int *size) {
     // x1 - x2
     int maxSize = std::max(size1, size2);
     int* res = new int[maxSize];
-    size = maxSize;
+    *size = maxSize;
     int re = 0;
     for (int i = 0; i < maxSize; ++i) {
         int tmpDif = 10 + re;
@@ -248,7 +248,7 @@ int* dif(int* x1, int* x2, int size1, int size2, int &size) {
         re = tmpDif / 10 - 1;
     }
 
-    while (res[size - 1] == 0 && size != 1) --size;
+    while (res[*size - 1] == 0 && *size != 1) --(*size);
 
     return res;
 }
