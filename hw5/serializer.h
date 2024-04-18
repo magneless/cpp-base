@@ -14,8 +14,8 @@ public:
   explicit Serializer(std::ostream* out);
   
   template <class T>
-  Error save(T& object) {
-    return object.serialize(*this);
+  Error save(T* object) {
+    return object->serialize(this);
   }
 
   template <class... ArgsT>
@@ -46,7 +46,7 @@ public:
 
   template <class T>
   Error load(T* object) {
-    return object->deserialize(*this);
+    return object->deserialize(this);
   }
 
   template <class... ArgsT>

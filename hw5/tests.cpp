@@ -8,8 +8,8 @@ struct Data1 {
   bool a;
 
   template <class Serializer>
-  Error serialize(Serializer& serializer) {
-    return serializer(a);
+  Error serialize(Serializer* serializer) {
+    return serializer->operator()(a);
   }
 };
 
@@ -18,8 +18,8 @@ struct Data2 {
   bool b;
 
   template <class Serializer>
-  Error serialize(Serializer& serializer) {
-    return serializer(a, b);
+  Error serialize(Serializer* serializer) {
+    return serializer->operator()(a, b);
   }
 };
 
@@ -27,8 +27,8 @@ struct Data3 {
   uint64_t a;
 
   template <class Serializer>
-  Error serialize(Serializer& serializer) {
-    return serializer(a);
+  Error serialize(Serializer* serializer) {
+    return serializer->operator()(a);
   }
 };
 
@@ -37,8 +37,8 @@ struct Data4 {
   uint64_t b;
 
   template <class Serializer>
-  Error serialize(Serializer& serializer) {
-    return serializer(a, b);
+  Error serialize(Serializer* serializer) {
+    return serializer->operator()(a, b);
   }
 };
 
@@ -49,13 +49,13 @@ struct Data5 {
   bool d;
 
   template <class Serializer>
-  Error serialize(Serializer& serializer) {
-    return serializer(a, b, c, d);
+  Error serialize(Serializer* serializer) {
+    return serializer->operator()(a, b, c, d);
   }
 
   template <class Deserializer>
-  Error deserialize(Deserializer& desirializer) {
-    return desirializer(&a, &b, &c, &d);
+  Error deserialize(Deserializer* desirializer) {
+    return desirializer->operator()(&a, &b, &c, &d);
   }
 };
 
@@ -65,13 +65,13 @@ struct ErrorData {
   bool b;
 
   template <class Serializer>
-  Error serialize(Serializer& serializer) {
-    return serializer(a, b);
+  Error serialize(Serializer* serializer) {
+    return serializer->operator()(a, b);
   }
 
   template <class Deserializer>
-  Error deserialize(Deserializer& desirializer) {
-    return desirializer(&a, &b);
+  Error deserialize(Deserializer* desirializer) {
+    return desirializer->operator()(&a, &b);
   }
 };
 
@@ -80,17 +80,17 @@ TEST (TestSerializerProcess, CorrectChangeOfBoolParametrs) {
 
   Serializer ser(&ss);
   Data1 data1{true};
-  ser.save(data1);
+  ser.save(&data1);
   EXPECT_EQ(ss.str(), "true ");
 
   ss.str("");
   data1.a = false;
-  ser.save(data1);
+  ser.save(&data1);
   EXPECT_EQ(ss.str(), "false ");
 
   ss.str("");
   Data2 data3{true, false};
-  ser.save(data3);
+  ser.save(&data3);
   EXPECT_EQ(ss.str(), "true false ");
 }
 
@@ -99,12 +99,12 @@ TEST (TestSerializerProcess, CorrectChangeOfUint64TParametrs) {
 
   Serializer ser(&ss);
   Data3 data1{ 10 };
-  ser.save(data1);
+  ser.save(&data1);
   EXPECT_EQ(ss.str(), "10 ");
 
   ss.str("");
   Data4 data2{ 2, 3};
-  ser.save(data2);
+  ser.save(&data2);
   EXPECT_EQ(ss.str(), "2 3 ");
 }
 
@@ -113,7 +113,7 @@ TEST (TestSerializerProcess, CorrectChangeOfUint64TAndBoolParametrs) {
 
   Serializer ser(&ss);
   Data5 data5{ true, 1, 2, false };
-  ser.save(data5);
+  ser.save(&data5);
   EXPECT_EQ(ss.str(), "true 1 2 false ");
 }
 
@@ -122,7 +122,7 @@ TEST (TestDeserializer, CorrecrWork) {
 
   Serializer ser(&ss);
   Data5 data1{ true, 10, 15, false };
-  ser.save(data1);
+  ser.save(&data1);
   
   Deserializer deser(&ss);
   Data5 data2{ false, 1, 2, true };
@@ -137,7 +137,7 @@ TEST (TestErrorReturn, CorrectErrorReturnWithCorrectInputData) {
 
   Serializer ser(&ss);
   Data5 data1{ true, 1, 2, true };
-  const Error err1 = ser.save(data1);
+  const Error err1 = ser.save(&data1);
   EXPECT_EQ(err1, Error::NoError);
 
   Deserializer deser(&ss);
@@ -165,7 +165,7 @@ TEST (TestErrorReturn, CorrectErrorReturnWithIncorrectInputDataStructure) {
 
   Serializer ser(&ss);
   ErrorData errorData1{ "error", true };
-  const Error err1 = ser.save(errorData1);
+  const Error err1 = ser.save(&errorData1);
   EXPECT_EQ(err1, Error::CorruptedArchive);
 
   ss.str("error");
