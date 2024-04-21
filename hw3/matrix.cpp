@@ -2,26 +2,29 @@
 
 #include "matrix.h"
 
-Matrix::Matrix(size_t rows, size_t columns) : 
-rows_(rows), columns_(columns) {
-  pRows_ = new ProxyRow[rows_];
+Matrix::ProxyRow::ProxyRow() : data_(nullptr), len_(0) {}
 
+Matrix::ProxyRow::ProxyRow(size_t columns) :
+  data_(new int[columns]),
+  len_(columns) {
+  std::fill(data_, data_ + len_, 0); 
+}
+
+Matrix::Matrix(size_t rows, size_t columns) : 
+  rows_(rows),
+  columns_(columns),
+  pRows_(new ProxyRow[rows]) {
   for (size_t i = 0; i < rows_; ++i) {
-    pRows_[i].data_ = new int[columns_];
-    pRows_[i].len_ = columns_;
-    for (size_t  j = 0; j < columns_; ++j) {
-      pRows_[i][j] = 0;
-    }
+    pRows_[i] = ProxyRow(columns_);
   }
 }
 
 Matrix::Matrix(const Matrix& matrix) :
-rows_(matrix.rows_), columns_(matrix.columns_) {
-  pRows_ = new ProxyRow[rows_];
-
+  rows_(matrix.rows_),
+  columns_(matrix.columns_),
+  pRows_(new ProxyRow[matrix.rows_]) {
   for (size_t  i =0; i < rows_; ++i) {
-    pRows_[i].data_ = new int[columns_];
-    pRows_[i].len_ = columns_;
+    pRows_[i] = ProxyRow(columns_);
     for (size_t  j = 0; j < columns_; ++j) {
       pRows_[i][j] = matrix[i][j];
     }
@@ -32,7 +35,6 @@ Matrix::~Matrix() {
   for (size_t  i = 0; i < rows_; ++i) {
     delete[] pRows_[i].data_;
   }
-
   delete[] pRows_;
 }
 
@@ -83,8 +85,8 @@ Matrix& Matrix::operator*=(int num) {
 }
 
 std::ostream& operator<<(std::ostream &out, const Matrix& matrix) {
-  for (size_t  i = 0; i < matrix.getRows(); i++) {
-    for (size_t  j = 0; j < matrix.getColumns(); j++) {
+  for (size_t  i = 0; i < matrix.rows_; i++) {
+    for (size_t  j = 0; j < matrix.columns_; j++) {
       out << matrix[i][j] << " ";
     }
   out << std::endl;
@@ -103,7 +105,6 @@ Matrix Matrix::operator+(const Matrix& matrix) const {
       res[i][j] += matrix[i][j]; 
     }
   }
-
   return res;
 }
 
@@ -117,7 +118,6 @@ bool Matrix::operator==(const Matrix& matrix) const {
       if (matrix[i][j] != (*this)[i][j]) return false;
     }
   }
-
   return true;
 }
 
@@ -134,8 +134,7 @@ Matrix& Matrix::operator=(const Matrix& matrix) {
 
   pRows_ = new ProxyRow[rows_];
   for (size_t  i = 0; i < rows_; ++i) {
-    pRows_[i].data_ = new int[columns_];
-    pRows_[i].len_ = columns_;
+    pRows_[i] = ProxyRow(columns_);
     for (size_t  j = 0; j < columns_; ++j) {
       (*this)[i][j] = matrix[i][j];
     }

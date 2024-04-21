@@ -6,6 +6,8 @@ class Matrix {
 private:
   class ProxyRow {
   public:
+    ProxyRow();
+    explicit ProxyRow(size_t columns);
     int& operator[](size_t j);
     int& operator[](size_t j) const;
 
@@ -28,6 +30,7 @@ public:
   bool operator==(const Matrix& matrix) const;
   Matrix& operator=(const Matrix& matrix);
 
+  friend std::ostream& operator<<(std::ostream &out, const Matrix& matrix);
 private:
   size_t rows_;
   size_t columns_;
@@ -35,4 +38,4 @@ private:
   ProxyRow *pRows_ = nullptr;
 };
 
-std::ostream& operator<<(std::ostream &out, const Matrix& matrix);
+
