@@ -23,7 +23,22 @@ format.o: format.cpp
 run: build
 	./main.exe
 
-go: clean run
+test: tests
+	./tests.exe
+
+tests: tests.o format.o
+	$(CXX) $(CXXFLAGS) tests.o format.o $(GFLAGS) -g -o tests.exe
+
+tests.o: tests.cpp
+	$(CXX) $(CXXFLAGS) -c tests.cpp $(GFLAGS)
+
+memory: build
+	valgrind $(VALGRIND_OPTS) ./main.exe
+
+memory_test: test
+	valgrind $(VALGRIND_OPTS) ./tests.exe
 
 clean:
 	rm -rf *.o *.exe
+
+.PHONY: all build run memory clean
