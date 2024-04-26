@@ -10,7 +10,7 @@ struct S{
 };
 
 int main () {
-  std::string str = "AA {1} {0} {1} BB {2} {3}", rep = "one";
-  S s;
-  std::cout << format(str, rep, "two", 1, 1000) << std::endl;
+  std::string str = "{1} + {0} = {2}";
+  std::string rep = "one";
+  std::cout << format(str, rep, 1, "two") << std::endl;
 }

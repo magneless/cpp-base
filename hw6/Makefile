@@ -1,4 +1,4 @@
-CXX := g++
+CXX := g++ -std=c++20
 
 CXXFLAGS := -Wall -Wextra -Werror
 
@@ -22,6 +22,8 @@ format.o: format.cpp
 
 run: build
 	./main.exe
+
+go: clean run
 
 clean:
 	rm -rf *.o *.exe
