@@ -20,8 +20,9 @@ void checkString(const std::string& str, size_t size) {
             "Wrong string fromat!!! Expect number in brackets.\n");
       }
       ++posEnd;
-    } else
+    } else {
       throw std::logic_error("Wrong string fromat!!! Need '}'.\n");
+    }
   }
   if (str.find('}', posEnd) != std::string::npos) {
     throw std::logic_error(
