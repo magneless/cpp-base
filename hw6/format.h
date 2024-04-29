@@ -10,7 +10,7 @@ void checkString(const std::string& str, size_t size);
 template <class T>
 concept printable = requires(std::ostream stream, T t) {
                       { stream << t } -> std::same_as<std::ostream&>;
-                    };
+                    };// NOLINT 
 
 template <printable T>
 void replaceArg(std::string* formatStr, uint64_t argNum, T arg) {
